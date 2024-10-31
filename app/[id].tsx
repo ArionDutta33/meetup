@@ -1,13 +1,27 @@
-import { View, Text, Image, Pressable } from 'react-native';
-import React from 'react';
+import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import events from 'assets/events.json';
 import dayjs from 'dayjs';
+import { supabase } from '~/utils/supabase';
 
 const EventPage = () => {
   const { id } = useLocalSearchParams();
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    fetchEvent();
+  }, [id]);
 
-  const event = events.find((event) => event.id === id);
+  const fetchEvent = async () => {
+    setLoading(true);
+    let { data, error } = await supabase.from('event').select('*').eq('id', id).single();
+    console.log(data);
+    console.log(error);
+    setEvent(data);
+    setLoading(false);
+  };
+
+  if (loading) return <ActivityIndicator />;
 
   if (!event) {
     return <Text>Event not found</Text>;
@@ -18,7 +32,7 @@ const EventPage = () => {
         <Stack.Screen
           options={{ title: event.title, headerBackTitleVisible: false, headerTintColor: 'black' }}
         />
-        <Image className="aspect-video w-full rounded-xl" source={{ uri: `${event.image}` }} />
+        <Image className="aspect-video w-full rounded-xl" source={{ uri: `${event.image_uri}` }} />
         <Text className="text-3xl font-bold" numberOfLines={2}>
           {event.title}
         </Text>
