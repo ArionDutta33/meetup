@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class CartonPacking {
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+         int[] cartonSizes = {48, 24, 12, 6};
+
+         System.out.print("Enter the number of boxes to be packed (maximum 1000): ");
+        int boxes = scanner.nextInt();
+        
+         if (boxes <= 0 || boxes > 1000) {
+            System.out.println("Invalid number of boxes. Please enter a number between 1 and 1000.");
+            return;
+        }
+
+         int[] cartonCount = new int[cartonSizes.length];
+
+         for (int i = 0; i < cartonSizes.length; i++) {
+            cartonCount[i] = boxes / cartonSizes[i];
+            boxes %= cartonSizes[i];
+        }
+
+         if (boxes > 0) {
+            cartonCount[cartonSizes.length - 1]++;
+        }
+
+         System.out.println("\nCarton breakdown:");
+        for (int i = 0; i < cartonSizes.length; i++) {
+            System.out.println("Cartons of " + cartonSizes[i] + "-box capacity: " + cartonCount[i]);
+        }
+
+        scanner.close();
+    }
+}
