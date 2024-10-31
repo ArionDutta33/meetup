@@ -13,7 +13,7 @@ const EventListItem = ({ event }) => {
   }, [event.id]);
 
   const fetchNumberOfAttendees = async () => {
-    const { count, error } = await supabase
+    const { count } = await supabase
       .from('attendance')
       .select('*', { count: 'exact', head: true })
       .eq('event_id', event.id);
@@ -22,7 +22,7 @@ const EventListItem = ({ event }) => {
   };
 
   return (
-    <Link href={`${event.id}`} asChild>
+    <Link href={`/event/${event.id}`} asChild>
       <Pressable className="m-3 gap-3 border-b-2 border-gray-100 pb-3">
         <View className="flex-row ">
           <View className="flex-1 gap-2 ">
