@@ -23,7 +23,7 @@ export default function Profile() {
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`username, website, avatar_url,full_name`)
         .eq('id', session?.user.id)
         .single();
       if (error && status !== 406) {
@@ -34,6 +34,7 @@ export default function Profile() {
         setUsername(data.username);
         setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
+        setFullname(data.full_name);
       }
     } catch (error) {
       if (error instanceof Error) {
