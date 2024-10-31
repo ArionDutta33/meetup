@@ -7,6 +7,7 @@ export default function Home() {
     <>
       <Stack.Screen options={{ title: 'Events' }} />
       <FlatList
+        showsVerticalScrollIndicator={true}
         className="bg-white"
         data={events}
         renderItem={({ item }) => <EventListItem event={item} />}
